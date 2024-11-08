@@ -1,5 +1,9 @@
 <template>
     <div class="wrapper">
+        <div class="reset-button">
+            <button @click="reset">Reset</button>
+        </div>
+
         <div class="elapsed-time">{{ elapsedTimeFormatted }}</div>
 
         <div
@@ -23,7 +27,10 @@
             <button @click="() => checkOperation(Operation.DIVIDE)">/</button>
         </div>
 
-        <div class="metrics">Correct count: {{ correctCount }}</div>
+        <div class="metrics">
+            <div class="metric">Correct count: {{ correctCount }}</div>
+            <div class="metric">Correct per second: {{ correctPerSecond.toFixed(2) }}</div>
+        </div>
     </div>
 </template>
 
@@ -62,6 +69,10 @@
         }
     });
 
+    const correctPerSecond = computed(() => {
+        return correctCount.value / elapsedTime.value;
+    });
+
     function generate() {
         firstNumber.value = Math.floor(Math.random() * 100);
         secondNumber.value = Math.floor(Math.random() * 100);
@@ -77,6 +88,20 @@
         }
 
         generate();
+    }
+
+    function reset() {
+        if (timer.value) {
+            clearInterval(timer.value);
+        }
+
+        elapsedTime.value = 0;
+        correctCount.value = 0;
+        generate();
+
+        timer.value = setInterval(() => {
+            elapsedTime.value++;
+        }, 1000);
     }
 
     onMounted(() => {
@@ -114,19 +139,21 @@
     }
 
     .equation {
-        font-size: 2rem;
+        font-size: 5rem;
         margin-bottom: 1rem;
     }
 
     .buttons {
         display: flex;
-        gap: 1rem;
+        gap: 2rem;
     }
 
     button {
-        height: 48px;
-        width: 56px;
+        min-height: 56px;
+        min-width: 64px;
         font-size: 2rem;
+
+        padding: 0 1rem;
         border: none;
         border-radius: 0.5rem;
         background-color: #4caf50;
