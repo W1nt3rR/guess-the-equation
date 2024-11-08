@@ -1,5 +1,7 @@
 <template>
     <div class="wrapper">
+        <div class="elapsed-time">{{ elapsedTimeFormatted }}</div>
+
         <div
             class="alert"
             :class="{
@@ -21,9 +23,7 @@
             <button @click="() => checkOperation(Operation.DIVIDE)">/</button>
         </div>
 
-        <div class="metrics">
-            Correct count: {{ correctCount }}
-        </div>
+        <div class="metrics">Correct count: {{ correctCount }}</div>
     </div>
 </template>
 
@@ -42,6 +42,12 @@
     const operation = ref<Operation | null>(null);
     const wasLastOperationCorrect = ref<boolean>(false);
     const correctCount = ref<number>(0);
+    const elapsedTime = ref<number>(0);
+    const timer = ref<number | null>(null);
+
+    const elapsedTimeFormatted = computed(() => {
+        return new Date(elapsedTime.value * 1000).toISOString().slice(11, 19);
+    });
 
     const result = computed(() => {
         switch (operation.value) {
@@ -75,6 +81,10 @@
 
     onMounted(() => {
         generate();
+
+        timer.value = setInterval(() => {
+            elapsedTime.value++;
+        }, 1000);
     });
 </script>
 
@@ -96,6 +106,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    .elapsed-time {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .equation {
