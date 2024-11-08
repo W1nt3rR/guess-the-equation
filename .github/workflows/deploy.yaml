@@ -27,7 +27,8 @@ jobs:
       - name: Create artifact
         uses: actions/upload-artifact@v3
         with:
-          name: dist/
+          name: output
+          path: dist/
 
   deploy:
     needs: build
@@ -46,7 +47,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact: dist
+          artifact: output
           target: gh-pages
           clean: true
           publish_dir: dist
