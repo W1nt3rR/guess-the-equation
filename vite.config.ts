@@ -6,7 +6,7 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   return {
-    base: mode === 'production' ? 'w1nt3rr.github.io/guess-the-equation/' : '/',
+    base: mode === 'production' ? 'https://w1nt3rr.github.io/guess-the-equation/' : '/',
     plugins: [
       vue(),
     ],
