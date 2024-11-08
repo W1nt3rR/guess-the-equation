@@ -20,6 +20,10 @@
             <button @click="() => checkOperation(Operation.MULTIPLY)">*</button>
             <button @click="() => checkOperation(Operation.DIVIDE)">/</button>
         </div>
+
+        <div class="metrics">
+            Correct count: {{ correctCount }}
+        </div>
     </div>
 </template>
 
@@ -37,6 +41,7 @@
     const secondNumber = ref<number>(0);
     const operation = ref<Operation | null>(null);
     const wasLastOperationCorrect = ref<boolean>(false);
+    const correctCount = ref<number>(0);
 
     const result = computed(() => {
         switch (operation.value) {
@@ -60,6 +65,7 @@
     function checkOperation(op: Operation) {
         if (op === operation.value) {
             wasLastOperationCorrect.value = true;
+            correctCount.value++;
         } else {
             wasLastOperationCorrect.value = false;
         }
@@ -119,5 +125,10 @@
 
     button:hover {
         background-color: #45a049;
+    }
+
+    .metrics {
+        font-size: 1.5rem;
+        margin-top: 1rem;
     }
 </style>
