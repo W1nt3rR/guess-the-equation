@@ -47,8 +47,5 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact: output
-          target: gh-pages
-          clean: true
-          publish_dir: dist
+          artifact_name: output
           token: ${{ secrets.GITHUB_TOKEN }}
